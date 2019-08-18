@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MazeApp
 {
-    public interface Tile
+    public interface ITile
     {
         int X { get; set; }
         int Y { get; set; }
@@ -14,5 +14,6 @@ namespace MazeApp
         Wall West { get; set; }
         bool Visited { get; set; }
         bool CanMoveInto();
+        Wall AttachEastNeighbor(ITile t);
     }
 }

@@ -7,10 +7,10 @@ namespace MazeApp
     public class Wall
     {
         public bool IsOpen { get; set; }
-        public Tile FirstNeighbor { get; set; }
-        public Tile SecondNeighbor { get; set; }
+        public ITile FirstNeighbor { get; set; }
+        public ITile SecondNeighbor { get; set; }
 
-        public Wall(Tile first, Tile Second)
+        public Wall(ITile first, ITile Second)
         {
             FirstNeighbor = first;
             SecondNeighbor = Second;

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MazeApp
 {
-    class AbstractTile : Tile
+    class AbstractTile : ITile
     {
         protected bool open;
         protected string print;
@@ -31,6 +31,14 @@ namespace MazeApp
         public override string ToString()
         {
             return print;
+        }
+
+        public Wall AttachEastNeighbor(ITile neighbor)
+        {
+            Wall wall = new Wall(this, neighbor);
+            this.East = wall;
+            neighbor.West = wall;
+            return wall;
         }
     }
 }

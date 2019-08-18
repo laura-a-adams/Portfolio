@@ -6,13 +6,13 @@ namespace MazeApp
 {
     public class Maze
     {
-        private int size;
-        private Tile[,] tiles;
+        private readonly int size;
+        private readonly ITile[,] tiles;
         public bool IsSolved { get; }
         public Maze(int size)
         {
             this.size = size;
-            tiles = new Tile[size, size];
+            tiles = new AbstractTile[size, size];
 
             CreatePrimsMaze();
         }
