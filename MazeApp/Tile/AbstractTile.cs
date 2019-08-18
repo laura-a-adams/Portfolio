@@ -11,6 +11,11 @@ namespace MazeApp
 
         public int X { get; set; }
         public int Y { get; set; }
+        public Wall North { get; set; }
+        public Wall South { get; set; }
+        public Wall East { get; set; }
+        public Wall West { get; set; }
+        public bool Visited { get; set; }
 
         public AbstractTile(int x, int y)
         {

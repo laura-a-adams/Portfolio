@@ -13,5 +13,10 @@ namespace MazeApp
             open = _OPEN;
             print = _PRINT;
         }
+
+        public override string ToString()
+        {
+            return $" {North} \n{West}{Visited}{East}\n {South} ";
+        }
     }
 }

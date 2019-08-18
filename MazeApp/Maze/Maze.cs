@@ -37,7 +37,7 @@ namespace MazeApp
             {
                 for (int j = 0; j < size; j++)
                 {
-                    tiles[i, j] = new ClosedTile(i, j);
+                    tiles[i, j] = new OpenTile(i, j);
                 }
             }
         }
@@ -58,10 +58,10 @@ namespace MazeApp
 
             // 2. Pick a cell, mark it as part of the maze.
             // Note we're always going to start the user at 0, 0
-            tiles[0, 0] = new OpenTile(0, 0);
+            tiles[0, 0].Visited = true;
 
             // Add the walls of the cell to the wall list.
-            var walls = AddWallsToList(0, 0, new List<Tile>());
+            var walls = AddWallsToList(0, 0, new List<Wall>());
 
             // 3. While there are walls in the list:
             while (walls.Count > 0)
@@ -69,12 +69,13 @@ namespace MazeApp
                 // Pick a random wall from the list.
                 var randomWall = walls[random.Next(walls.Count)];
                 // If only one of the two cells that the wall divides is visited
-                if (randomWall.Y + 1 < size && !tiles[randomWall.X, randomWall.Y + 1].CanMoveInto())
+                if (randomWall.FirstNeighbor.Visited ^ randomWall.SecondNeighbor.Visited)
                 {
                     // 1. Make the wall a passage and mark the unvisited cell as part of the maze.
-                    tiles[randomWall.X, randomWall.Y] = new OpenTile(randomWall.X, randomWall.Y);
+                    randomWall.IsOpen = true;
+                    tiles[randomWall.SecondNeighbor.X, randomWall.SecondNeighbor.Y].Visited = true; ;
                     // 2. Add the neighboring walls of the cell to the wall list.
-                    AddWallsToList(randomWall.X, randomWall.Y, walls);
+                    AddWallsToList(randomWall.SecondNeighbor.X, randomWall.SecondNeighbor.Y, walls);
                 }
 
                 // Remove the wall from the list.
@@ -82,7 +83,7 @@ namespace MazeApp
             }
         }
 
-        private List<Tile> AddWallsToList(int i, int j, List<Tile> list)
+        private List<Wall> AddWallsToList(int i, int j, List<Wall> list)
         {
             // i and j are the index of the current tile. We don't want to add that tile to the list, only its neighbors
             // A tile can potentially have a north, south, east, and west neighbor
@@ -90,25 +91,37 @@ namespace MazeApp
             // Add north (i - 1, j)
             if (i - 1 >= 0 && !tiles[i - 1, j].CanMoveInto())
             {
-                list.Add(tiles[i - 1, j]);
+                var north = new Wall(tiles[i, j], tiles[i - 1, j]);
+                tiles[i, j].North = north;
+                tiles[i - 1, j].South = north;
+                list.Add(north);
             }
 
             // Add south (i + 1, j)
             if (i + 1 < size && !tiles[i + 1, j].CanMoveInto())
             {
-                list.Add(tiles[i + 1, j]);
+                var south = new Wall(tiles[i, j], tiles[i + 1, j]);
+                tiles[i, j].South = south;
+                tiles[i + 1, j].North = south;
+                list.Add(south);
             }
 
             // Add east (i, j + 1)
             if (j + 1 < size && !tiles[i, j + 1].CanMoveInto())
             {
-                list.Add(tiles[i, j + 1]);
+                var east = new Wall(tiles[i, j], tiles[i, j + 1]);
+                tiles[i, j].East = east;
+                tiles[i, j + 1].West = east;
+                list.Add(east);
             }
 
             // Add west (i, j - 1)
             if (j - 1 >= 0 && !tiles[i, j - 1].CanMoveInto())
             {
-                list.Add(tiles[i, j - 1]);
+                var west = new Wall(tiles[i, j], tiles[i, j - 1]);
+                tiles[i, j].West = west;
+                tiles[i, j - 1].East = west;
+                list.Add(west);
             }
             return list;
         }
