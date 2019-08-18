@@ -14,7 +14,8 @@ namespace MazeApp
             this.size = size;
             tiles = new AbstractTile[size, size];
 
-            CreatePrimsMaze();
+            //CreatePrimsMaze();
+            InitalizeMaze();
         }
 
         public override string ToString()
