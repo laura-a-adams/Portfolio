@@ -15,5 +15,8 @@ namespace MazeApp
         bool Visited { get; set; }
         bool CanMoveInto();
         Wall AttachEastNeighbor(ITile t);
+        Wall AttachWestNeighbor(ITile t);
+        Wall AttachSouthNeighbor(ITile t);
+        Wall AttachNorthNeighbor(ITile t);
     }
 }

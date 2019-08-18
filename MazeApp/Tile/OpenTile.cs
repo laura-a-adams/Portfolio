@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MazeApp
 {
-    class OpenTile : AbstractTile
+    public class OpenTile : AbstractTile
     {
         private readonly bool _OPEN = true;
         private readonly string _PRINT = "[ ]";

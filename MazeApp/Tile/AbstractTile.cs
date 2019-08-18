@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MazeApp
 {
-    class AbstractTile : ITile
+    public class AbstractTile : ITile
     {
         protected bool open;
         protected string print;
@@ -38,6 +38,30 @@ namespace MazeApp
             Wall wall = new Wall(this, neighbor);
             this.East = wall;
             neighbor.West = wall;
+            return wall;
+        }
+
+        public Wall AttachWestNeighbor(ITile neighbor)
+        {
+            Wall wall = new Wall(this, neighbor);
+            this.West = wall;
+            neighbor.East = wall;
+            return wall;
+        }
+
+        public Wall AttachSouthNeighbor(ITile neighbor)
+        {
+            Wall wall = new Wall(this, neighbor);
+            this.South = wall;
+            neighbor.North = wall;
+            return wall;
+        }
+
+        public Wall AttachNorthNeighbor(ITile neighbor)
+        {
+            Wall wall = new Wall(this, neighbor);
+            this.North = wall;
+            neighbor.South = wall;
             return wall;
         }
     }
