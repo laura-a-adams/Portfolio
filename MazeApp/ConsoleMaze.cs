@@ -2,7 +2,7 @@
 
 namespace MazeApp
 {
-    class Program
+    class ConsoleMaze
     {
         static void Main(string[] args)
         {

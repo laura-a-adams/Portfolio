@@ -7,8 +7,8 @@ namespace MazeApp
     class ClosedTile : AbstractTile
     {
         private readonly bool _OPEN = false;
-        private readonly string _PRINT = "X";
-        public ClosedTile()
+        private readonly string _PRINT = "[X]";
+        public ClosedTile(int x, int y) : base (x, y)
         {
             open = _OPEN;
             print = _PRINT;
