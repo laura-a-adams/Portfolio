@@ -54,6 +54,7 @@ namespace MazeApp
         private void CreatePrimsMaze() {
             // 1. Start with a grid full of walls.
             InitalizeMaze();
+            var random = new Random();
 
             // 2. Pick a cell, mark it as part of the maze.
             // Note we're always going to start the user at 0, 0
@@ -66,14 +67,14 @@ namespace MazeApp
             while (walls.Count > 0)
             {
                 // Pick a random wall from the list.
-                var randomWall = walls[new Random().Next(0, walls.Count)];
+                var randomWall = walls[random.Next(walls.Count)];
                 // If only one of the two cells that the wall divides is visited
                 if (randomWall.Y + 1 < size && !tiles[randomWall.X, randomWall.Y + 1].CanMoveInto())
                 {
                     // 1. Make the wall a passage and mark the unvisited cell as part of the maze.
-                    tiles[randomWall.X, randomWall.Y + 1] = new OpenTile(randomWall.X, randomWall.Y + 1);
+                    tiles[randomWall.X, randomWall.Y] = new OpenTile(randomWall.X, randomWall.Y);
                     // 2. Add the neighboring walls of the cell to the wall list.
-                    AddWallsToList(randomWall.X, randomWall.Y + 1, walls);
+                    AddWallsToList(randomWall.X, randomWall.Y, walls);
                 }
 
                 // Remove the wall from the list.
@@ -86,25 +87,25 @@ namespace MazeApp
             // i and j are the index of the current tile. We don't want to add that tile to the list, only its neighbors
             // A tile can potentially have a north, south, east, and west neighbor
 
-            // Add north (i-1, j)
+            // Add north (i - 1, j)
             if (i - 1 >= 0 && !tiles[i - 1, j].CanMoveInto())
             {
                 list.Add(tiles[i - 1, j]);
             }
 
-            // Add south (i+1, j)
+            // Add south (i + 1, j)
             if (i + 1 < size && !tiles[i + 1, j].CanMoveInto())
             {
                 list.Add(tiles[i + 1, j]);
             }
 
-            // Add east (i, j+1)
+            // Add east (i, j + 1)
             if (j + 1 < size && !tiles[i, j + 1].CanMoveInto())
             {
                 list.Add(tiles[i, j + 1]);
             }
 
-            // Add west (i, j-1)
+            // Add west (i, j - 1)
             if (j - 1 >= 0 && !tiles[i, j - 1].CanMoveInto())
             {
                 list.Add(tiles[i, j - 1]);
